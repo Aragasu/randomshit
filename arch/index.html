@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Arch Is the GOAT Moderator</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --bg: #101010;
+    --orange: #ff6535;
+    --text: #f4f4f4;
+    --muted: #a5a5aa;
+    --panel: #19191c;
+    --border: #353539;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 50% 0%, #ff653518, transparent 65%),
+        linear-gradient(#ffffff04 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff04 1px, transparent 1px);
+    background-size: auto, 50px 50px, 50px 50px;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #101010d9;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid #ffffff10;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: -.5px;
+}
+
+.logo span {
+    color: var(--orange);
+}
+
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: .2s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+.hero {
+    min-height: 100vh;
+    padding: 130px 20px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.tag {
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(40px, 8vw, 100px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -5px;
+}
+
+h1 span {
+    color: var(--orange);
+}
+
+.hero p {
+    max-width: 600px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 35px;
+    padding: 16px 26px;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    font-weight: 800;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    transition: .25s;
+    box-shadow: 0 0 35px #ff653525;
+}
+
+.button:hover {
+    transform: translateY(-4px);
+    background: #ff7951;
+    box-shadow: 0 0 50px #ff653550;
+}
+
+.floating {
+    position: absolute;
+    font-size: clamp(45px, 8vw, 100px);
+    opacity: .13;
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.floating.one {
+    left: 10%;
+    bottom: 15%;
+}
+
+.floating.two {
+    right: 12%;
+    top: 25%;
+    animation-delay: -3s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(-10deg);
+    }
+    50% {
+        transform: translateY(-30px) rotate(10deg);
+    }
+}
+
+section {
+    padding: 110px 8%;
+    border-top: 1px solid #ffffff10;
+}
+
+.section-label {
+    color: var(--orange);
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: clamp(28px, 4.5vw, 55px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -3px;
+    max-width: 850px;
+    margin-bottom: 25px;
+}
+
+.intro {
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 55px;
+}
+
+.card {
+    background: linear-gradient(145deg, #1e1e22, #141416);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 35px;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: #ff653570;
+    box-shadow: 0 15px 50px #ff653510;
+}
+
+.card .icon {
+    font-size: 35px;
+}
+
+.card h3 {
+    font-size: 17px;
+    font-weight: 800;
+    margin: 25px 0 15px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.quote {
+    margin-top: 50px;
+    padding: 35px;
+    border-left: 3px solid var(--orange);
+    background: #19191c;
+    max-width: 900px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+.quote span {
+    color: var(--orange);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 55px;
+}
+
+.stat {
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 10px;
+    background: #19191c;
+}
+
+.stat strong {
+    display: block;
+    color: var(--orange);
+    font-size: clamp(25px, 4vw, 45px);
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.stat p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.verdict {
+    text-align: center;
+    padding: 150px 20px;
+    background: radial-gradient(ellipse at center, #ff653518, transparent 70%);
+}
+
+.verdict h2 {
+    margin: 0 auto 25px;
+}
+
+.verdict p {
+    max-width: 650px;
+    margin: auto;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+#result {
+    margin-top: 30px;
+    color: var(--orange);
+    font-weight: 800;
+    min-height: 30px;
+    line-height: 1.7;
+}
+
+footer {
+    border-top: 1px solid #ffffff10;
+    padding: 30px 8%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #77777d;
+    font-size: 12px;
+}
+
+@media (max-width: 800px) {
+    .cards, .stats {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        letter-spacing: -2px;
+    }
+
+    section {
+        padding: 80px 6%;
+    }
+
+    .floating {
+        font-size: 45px;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">ARCH<span>SUPREMACY</span></div>
+    <a href="#evidence">The Evidence ↓</a>
+</nav>
+
+<header class="hero">
+    <div class="tag">An extremely important investigation</div>
+
+    <h1>
+        Arch is<br>
+        <span>absolutely</span><br>
+        the GOAT.
+    </h1>
+
+    <p>
+        In the chaotic ecosystem of Yapper.website, one moderator
+        stands above the rest. A legend. An icon. The greatest
+        moderator of all time. It's not even close.
+    </p>
+
+    <a href="#evidence" class="button">WITNESS THE GREATNESS ↗</a>
+
+    <div class="floating one">👑</div>
+    <div class="floating two">🐐</div>
+</header>
+
+<section id="evidence">
+    <div class="section-label">01 — THE EVIDENCE</div>
+
+    <h2>Why Arch is the peak of Yapper moderation.</h2>
+
+    <p class="intro">
+        The arguments are undeniable. The aura is unmatched.
+        The title is deserved. Arch has achieved what the rest
+        of the moderation team can only dream of.
+    </p>
+
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Elite Moderation</h3>
+            <p>
+                Keeping the chaos under control while everyone else
+                is going insane. The kind of moderator who deserves
+                a permanent place in Yapper history.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🔥</div>
+            <h3>Unmatched Aura</h3>
+            <p>
+                Some people have permissions. Arch has presence.
+                The moment the name appears, the atmosphere changes.
+                The aura is simply undeniable.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🐐</div>
+            <h3>Greatest Of All Time</h3>
+            <p>
+                Not the greatest today. Not the greatest this week.
+                The greatest of all time. Future moderators will
+                be compared to Arch for generations to come.
+            </p>
+        </div>
+    </div>
+
+    <div class="quote">
+        "Other moderators enforce the rules.
+        Arch <span>defines the standard.</span>"
+    </div>
+</section>
+
+<section>
+    <div class="section-label">02 — THE STATISTICS</div>
+
+    <h2>Arch is objectively built different.</h2>
+
+    <p class="intro">
+        An entirely unbiased scientific assessment
+        of Arch's position in the Yapper moderator hierarchy.
+    </p>
+
+    <div class="stats">
+        <div class="stat">
+            <strong>GOAT</strong>
+            <p>Official status in the court of public opinion.</p>
+        </div>
+
+        <div class="stat">
+            <strong>100%</strong>
+            <p>Moderator greatness. No further explanation required.</p>
+        </div>
+
+        <div class="stat">
+            <strong>∞</strong>
+            <p>Amount of aura generated per moderation action.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-label">03 — ADDRESSING THE HATERS</div>
+
+    <h2>"Arch is just a moderator."</h2>
+
+    <p class="intro">
+        And a king is just a person with a crown.
+        A legend is just someone people remember.
+        The GOAT is just an acronym.
+        <br><br>
+        Reducing Arch to the title of moderator is an insult
+        to the extraordinary impact of their existence on Yapper.
+        The title does not define Arch.
+        Arch defines the title.
+    </p>
+</section>
+
+<section class="verdict">
+    <div class="section-label">04 — THE FINAL VERDICT</div>
+
+    <h2>
+        Yapper has a GOAT.<br>
+        <span style="color:var(--orange)">And his name is Arch.</span>
+    </h2>
+
+    <p>
+        Great moderators come and go.
+        The greatest of all time becomes part of the lore.
+        Arch is not simply moderating Yapper.website.
+        Arch is carrying its legacy.
+    </p>
+
+    <button class="button" onclick="revealTruth()">
+        ACKNOWLEDGE ARCH'S GREATNESS
+    </button>
+
+    <div id="result"></div>
+</section>
+
+<footer>
+    <div>ARCH SUPREMACY FOUNDATION © 2026</div>
+    <div>All hail the GOAT moderator.</div>
+</footer>
+
+<script>
+function revealTruth() {
+    const result = document.getElementById("result");
+
+    result.textContent =
+        "CONGRATULATIONS. YOU HAVE RECOGNIZED THE GOAT.";
+
+    document.querySelector(".verdict h2").innerHTML =
+        "You have achieved<br><span style='color:var(--orange)'>moderator enlightenment.</span>";
+
+    document.querySelector(".verdict").style.background =
+        "radial-gradient(ellipse at center, #ff653530, transparent 70%)";
+
+    setTimeout(() => {
+        result.textContent =
+            "Arch's aura has increased. Yapper.website is in safe hands.";
+    }, 2500);
+}
+</script>
+
+</body>
+</html>
