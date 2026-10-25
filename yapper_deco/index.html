@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deco Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M4 8.5A3.5 3.5 0 0 1 7.5 5h17A3.5 3.5 0 0 1 28 8.5v11a3.5 3.5 0 0 1-3.5 3.5H15l-6 5v-5H7.5A3.5 3.5 0 0 1 4 19.5Z" fill="currentColor"/>
+      <circle cx="11" cy="14" r="1.9" fill="var(--paper)"/><circle cx="16" cy="14" r="1.9" fill="var(--paper)"/><circle cx="21" cy="14" r="1.9" fill="var(--paper)"/>
+    </svg>
+    <span>deco studio</span>
+  </div>
+
+  <label class="doc">
+    <span class="sr">Project name</span>
+    <input id="doc-name" value="yapper deco" spellcheck="false">
+  </label>
+
+  <div class="topbar-actions">
+    <button class="btn icon" id="undo" title="Undo (Ctrl Z)" aria-label="Undo">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 5 4 9l4 4M4 9h7a5 5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="btn icon" id="redo" title="Redo (Ctrl Shift Z)" aria-label="Redo">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5 4 4-4 4m4-4H9a5 5 0 0 0 0 10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="btn primary" id="export-open">Export</button>
+  </div>
+</header>
+
+<main class="workbench">
+
+  <aside class="rail" aria-label="Add">
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab is-on" data-tab="shapes" aria-selected="true">Shapes</button>
+      <button role="tab" class="tab" data-tab="clipart" aria-selected="false">Clipart</button>
+      <button role="tab" class="tab" data-tab="discord" aria-selected="false">Discord</button>
+      <button role="tab" class="tab" data-tab="upload" aria-selected="false">Upload</button>
+    </div>
+
+    <div class="tabpanel is-on" id="panel-shapes">
+      <div class="tool-row" id="tool-row" role="group" aria-label="Tool">
+        <button class="pill is-on" type="button" data-tool="select" title="Select and move (V)">Select</button>
+        <button class="pill" type="button" data-tool="pen" title="Pen — click points, drag to curve (P)">Pen</button>
+        <button class="pill" type="button" data-tool="brush" title="Brush — draw freehand (B)">Brush</button>
+      </div>
+      <label class="field draw-size">
+        <span>Stroke width <span class="mono" id="brush-size-label">6</span></span>
+        <input type="range" id="brush-size" min="1" max="40" step="1" value="6">
+      </label>
+      <p class="hint" id="tool-hint">Click to drop onto the canvas. Drag on the stage to move.</p>
+      <div class="shape-grid" id="shape-grid"></div>
+      <h3 class="rail-h">Change colours</h3>
+      <div class="swatch-row" id="swatch-row"></div>
+      <label class="check">
+        <input type="checkbox" id="apply-to-selection" checked>
+        <span>Recolour selected shape</span>
+      </label>
+    </div>
+
+    <div class="tabpanel" id="panel-clipart">
+      <form class="search" id="clipart-form">
+        <input id="clipart-query" placeholder="Search clipart" autocomplete="off" aria-label="Search clipart">
+        <button class="btn icon" type="submit" aria-label="Search">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="5.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m13.2 13.2 3.6 3.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+      <div class="chips" id="clipart-chips"></div>
+      <p class="hint" id="clipart-status">Searches Iconify — 200k+ open licensed icons and emoji.</p>
+      <div class="clipart-grid" id="clipart-results"></div>
+    </div>
+
+    <div class="tabpanel" id="panel-discord">
+      <form class="search" id="discord-form">
+        <input id="discord-query" placeholder="Filter decorations" autocomplete="off" aria-label="Filter Discord decorations">
+        <button class="btn icon" type="button" id="discord-reload" title="Reload the list" aria-label="Reload">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 8A6 6 0 1 0 16 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M16 3.5V8h-4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+      <select id="discord-category" class="filter-select" aria-label="Filter decorations by set">
+        <option value="*">All sets</option>
+      </select>
+      <p class="hint" id="discord-status">Loading the decoration index…</p>
+      <div class="pill-row timing-row">
+        <button class="pill" type="button" id="discord-timings" title="Read the loop length of every preset currently shown">Show loop lengths</button>
+      </div>
+      <div class="clipart-grid" id="discord-results"></div>
+      <p class="license">Fetched live from Discord's public CDN with no account token, using an unofficial index of preset IDs. The artwork belongs to Discord and its artists — place them for personal previews, don't redistribute.</p>
+    </div>
+
+    <div class="tabpanel" id="panel-upload">
+      <div class="drop" id="drop">
+        <p><strong>Drop art here</strong><br><span>PNG, SVG or JPG</span></p>
+        <button class="btn" id="pick-file">Choose file</button>
+        <input type="file" id="file-input" accept="image/*" hidden>
+      </div>
+      <h3 class="rail-h">Avatar behind the deco</h3>
+      <div class="drop small" id="avatar-drop">
+        <p><span>Preview your deco on a face</span></p>
+        <div class="row">
+          <button class="btn" id="pick-avatar">Use image</button>
+          <button class="btn ghost" id="clear-avatar">Clear</button>
+        </div>
+        <input type="file" id="avatar-input" accept="image/*" hidden>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="show-guides" checked>
+        <span>Show avatar rim and name strip</span>
+      </label>
+    </div>
+  </aside>
+
+  <div class="splitter v" id="split-rail" role="separator" aria-orientation="vertical" aria-label="Resize the add panel" tabindex="0" title="Drag to resize · double-click to reset"></div>
+
+  <section class="stage-wrap">
+    <div class="stage" id="stage">
+      <div class="canvas-holder" id="canvas-holder">
+        <canvas id="stage-canvas" width="512" height="512"></canvas>
+      </div>
+    </div>
+    <div class="stage-foot">
+      <div class="zone" id="zone-status" data-state="safe">
+        <span class="zone-dot"></span><span id="zone-text">Inside the rim is clear</span>
+      </div>
+      <div class="zoom" role="group" aria-label="Zoom">
+        <button class="btn tiny" data-zoom="fit">fit</button>
+        <button class="btn tiny" data-zoom="1">1:1</button>
+        <button class="btn tiny" data-zoom="2">2×</button>
+        <span class="mono" id="zoom-label">fit</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="splitter v" id="split-inspect" role="separator" aria-orientation="vertical" aria-label="Resize the inspector" tabindex="0" title="Drag to resize · double-click to reset"></div>
+
+  <aside class="inspector-col">
+    <section class="layers">
+      <div class="panel-head">
+        <h2>Layers</h2>
+        <button class="btn tiny" id="add-keyframe-all" title="Keyframe every layer at the playhead">Key all</button>
+      </div>
+      <ul class="layer-list" id="layer-list"></ul>
+    </section>
+    <section class="inspector">
+      <div class="panel-head">
+        <h2>Selected</h2>
+        <button class="btn tiny ghost" id="reset-starter" title="Reload the yapper deco starter project">Starter</button>
+        <button class="btn tiny ghost" id="load-wings" title="Load the fallen wings deco — original art, fully keyframed">Wings</button>
+      </div>
+      <div id="inspector-body"></div>
+    </section>
+  </aside>
+</main>
+
+<div class="splitter h" id="split-timeline" role="separator" aria-orientation="horizontal" aria-label="Resize the timeline" tabindex="0" title="Drag to resize · double-click to reset"></div>
+
+<footer class="timeline">
+  <div class="transport">
+    <button class="btn icon play" id="play" aria-label="Play">
+      <svg viewBox="0 0 20 20" aria-hidden="true" id="play-icon"><path d="M6 4.2v11.6L16 10z" fill="currentColor"/></svg>
+    </button>
+    <span class="time mono" id="time-label">0.00s</span>
+    <div class="fields">
+      <label class="field"><span>Duration</span><input class="mono" id="duration" type="number" min="200" max="10000" step="100" value="2400"></label>
+      <label class="field"><span>FPS</span><input class="mono" id="fps" type="number" min="6" max="60" step="1" value="24"></label>
+      <label class="check compact"><input type="checkbox" id="loop" checked><span>Loop</span></label>
+    </div>
+    <div class="transport-right">
+      <span class="kbd-hint">Ctrl Z undo · Del removes · Space plays</span>
+    </div>
+  </div>
+
+  <div class="tracks-wrap">
+    <div class="label-col">
+      <div class="label-head">Layers</div>
+      <div class="label-list" id="track-labels"></div>
+    </div>
+    <div class="track-area">
+      <div class="ruler" id="ruler"></div>
+      <div class="tracks" id="tracks"></div>
+    </div>
+  </div>
+</footer>
+
+<div class="sheet" id="export-sheet" hidden>
+  <div class="sheet-card">
+    <div class="panel-head">
+      <h2>Export</h2>
+      <button class="btn icon ghost" id="export-close" aria-label="Close">✕</button>
+    </div>
+    <div class="export-grid">
+      <button class="export-opt" id="export-png">
+        <strong>PNG still</strong>
+        <span>Current frame, 512 px, transparent</span>
+      </button>
+      <button class="export-opt" id="export-png2x">
+        <strong>PNG @2×</strong>
+        <span>1024 px for retina avatars</span>
+      </button>
+      <button class="export-opt" id="export-webp">
+        <strong>Animated WebP</strong>
+        <span id="webp-detail">Full colour and alpha — the one to hand to yapper</span>
+      </button>
+      <button class="export-opt" id="export-gif">
+        <strong>Animated GIF</strong>
+        <span id="gif-detail">Plays anywhere, 256 colours and hard edges</span>
+      </button>
+      <button class="export-opt" id="export-apng">
+        <strong>Animated PNG</strong>
+        <span id="apng-detail">Discord's own deco format — not a yapper upload type</span>
+      </button>
+      <button class="export-opt" id="export-json">
+        <strong>Project file</strong>
+        <span>JSON you can reopen later</span>
+      </button>
+    </div>
+    <div class="sheet-foot">
+      <label class="check"><input type="checkbox" id="export-include-avatar"><span>Include the avatar preview in the file</span></label>
+      <p class="hint" id="export-note">Exports write the deco only — the avatar is preview furniture.</p>
+      <p class="hint">yapper accepts PNG, WebP and GIF, so a moving deco has to be WebP or GIF — animated PNGs won't upload.</p>
+      <div><button class="btn ghost tiny" id="open-project" type="button">Open a project file instead</button></div>
+      <input type="file" id="project-input" accept="application/json,.json" hidden>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
